@@ -4,6 +4,40 @@ A web-based disaster management platform built with **Spring Boot**, **MySQL**, 
 
 ---
 
+## Screenshots
+
+### Admin Dashboard
+
+
+![Admin Dashboard](screenshots/admin/dashboard.jpg)
+
+
+
+### Login Page
+
+
+![Login Page](screenshots/login.jpg)
+
+
+
+### Register Page
+
+
+![Register Page](screenshots/user/register.jpg)
+
+
+
+### User Report Incident Form
+
+
+![Report Incident Form](screenshots/user/report_incident_form.jpg)
+
+
+
+> 📂 For more UI screenshots, please refer to the [screenshots](screenshots/) folder.
+
+---
+
 ## Table of Contents
 
 - [Features](#features)
