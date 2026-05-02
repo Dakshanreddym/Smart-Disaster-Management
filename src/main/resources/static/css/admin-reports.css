@@ -1,0 +1,55 @@
+.buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 0px;
+    margin-top: 25px;
+}
+
+
+.actions {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    gap: 7px;
+}
+
+.actions select,
+.actions input {
+    padding: 16.5px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 2px solid #094993cb;
+    cursor: pointer;
+    outline: none;
+    background-color: #ecf4fb;
+}
+
+table {
+    width: 100%;
+    font-size: 17px;
+    text-align: center;
+    cursor: pointer;
+}
+
+table th,
+table td {
+    padding: 12px 15px;
+    border: 2px solid #c0d0e8;
+
+}
+
+table th {
+    background-color: #d2e3fc;
+}
+
+table tr:nth-of-type(even) {
+    background-color: #e1effb;
+}
+table tr:nth-of-type(odd) {
+    background-color: #edf5fb;
+}
+table tr:hover {
+    background-color: #8dc6ff61;
+}

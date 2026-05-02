@@ -1,0 +1,84 @@
+.form-container{
+    font-family: "Roboto", serif;
+    width: 75%;
+    margin: 5px auto 50px auto !important;
+    padding: 20px;
+    background-color: #d3e3ef;
+    border: 2px solid #00418b;
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    color: #555;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 1px;
+    font-size: 16px;
+    background-color: #ecf3f8;
+    border: 1px solid #6fbcf3;
+    border-radius: 8px;
+    padding: 12px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, section:focus, textarea:focus {
+    outline: none;
+    border-color: #0357b7dc;
+    box-shadow: 0 0 5px rgba(26, 134, 188, 0.3);
+}
+
+textarea {
+    resize: vertical;
+}
+
+.form-button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.form-button:hover {
+    background-color: #218838;
+}
+
+#map {
+    height: 300px;
+    margin: 15px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.column {
+    flex: 1 1 calc(50% - 15px);
+}
+
+.row label {
+    margin-bottom: 5px;
+}
+.content{
+    margin-top: 70px;
+}

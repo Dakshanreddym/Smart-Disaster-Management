@@ -1,0 +1,303 @@
+.metrics {
+    display: flex;
+    flex-direction: column;
+}
+
+.card {
+    display: flex;
+    flex-direction: row !important;
+    align-items: start;
+    justify-content: space-around;
+    position: relative;
+    padding: 16px;
+    border-radius: 8px;
+    height: 180px;
+    border: 2px solid;
+    margin-top: 10px;
+}
+
+.card-content {
+    flex: 1;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    left: 0;
+}
+
+.card h4 {
+    font-size: 22px;
+    font-weight: 350;
+    margin: 0;
+}
+
+.card h3 {
+    font-size: 24px;
+    font-weight: 600;
+
+}
+
+.card p {
+    font-size: 16px;
+    margin: 0;
+    font-weight: 300;
+
+}
+
+.icon-top-right {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 33px;
+    color: #fff;
+    border: none;
+
+}
+
+.card[data-color="blue"] .icon-top-right {
+    background-color: rgba(60, 142, 245, 0.8);
+}
+
+.card[data-color="purple"] .icon-top-right {
+    background-color: rgba(101, 116, 205, 0.8);
+}
+
+.card[data-color="purple"] {
+    background-color: rgba(101, 116, 205, 0.2);
+    border-color: rgba(101, 116, 205, 0.5);
+    box-shadow: 2px 2px 5px rgba(101, 116, 205, 0.7);
+}
+
+.card[data-color="blue"] {
+    background-color: rgba(60, 142, 245, 0.2);
+    border-color: rgba(60, 142, 245, 0.5);
+    box-shadow: 2px 2px 5px rgba(60, 142, 245, 0.7);
+}
+
+.latest-reports {
+    margin: 10px 0 0 0;
+    padding: 20px;
+    background-color: rgba(101, 116, 205, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.latest-reports h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.latest-reports table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.latest-reports table th,
+.latest-reports table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(101, 116, 205, 0.8);
+    text-align: center;
+}
+
+.latest-reports table th {
+    background-color: rgba(101, 116, 205, 0.9);
+    color: #fff;
+}
+
+.latest-reports table tr:nth-child(odd) {
+    background-color: rgba(101, 116, 205, 0.4);
+
+}
+.latest-reports table tr:nth-child(even) {
+    background-color: rgba(101, 116, 205, 0.5);
+
+}
+
+.latest-reports table tr:hover {
+    background-color: rgba(101, 116, 205, 0.2);
+}
+
+.latest-reports button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: purple;
+    color: white;
+    cursor: pointer;
+}
+
+.latest-reports button:hover {
+    background-color: #0056b3;
+}
+
+.card canvas {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100% !important;
+    height: 35% !important;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    pointer-events: none;
+}
+
+.table-chart {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: 2fr 3fr;
+    padding: 10px;
+    align-item: stretch;
+}
+
+.bar-chart,
+.table {
+    width: 100%;
+    min-height: 380px;
+}
+
+.bar-chart {
+    position: relative;
+    background-color: rgba(255, 99, 132, 0.2);
+    border-radius: 8px;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin: 10px 0 0 0;
+    height: 96%;
+    padding: 20px;
+}
+
+.bar-chart canvas {
+    padding: 13px 13px 13px 0px !important;
+    position: absolute;
+    width: 100% !important;
+    height: 90% !important;
+    object-fit: contain;
+}
+
+@media (max-width: 992px) {
+    .table-chart {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .table-chart {
+        grid-template-columns: 1fr;
+        padding: 5px;
+    }
+
+    .bar-chart {
+        height: auto;
+        margin: 10px 0;
+    }
+
+    .bar-chart canvas {
+        position: static;
+    }
+
+}
+
+@media (min-width: 770px) and (max-width: 990px) {
+
+    .bar-chart {
+        margin: 10px 0;
+    }
+
+    .bar-chart canvas {
+        position: static;
+    }
+
+}
+
+.review-container {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: 1fr 2fr;
+    padding: 10px;
+    align-item: stretch;
+}
+
+#chartContainer {
+    position: relative;
+    background-color: rgba(80, 198, 168, 0.2);
+    border-radius: 8px;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin: 10px 0;
+    padding: 15px;
+    min-height: 370px;
+}
+#chartContainer{
+    background-color: rgba(253, 108, 77, 0.2);
+}
+
+#chartContainer canvas {
+    width: 100% !important;
+    height: calc(100% - 50px) !important;
+    object-fit: contain;
+    position: absolute;
+    top: 40px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 0;
+}
+
+#chartContainer h2, .bar-chart h2 {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 10px 0;
+    font-size: 1.5em;
+    color: #333;
+}
+
+@media (min-width: 770px) and (max-width: 990px) {
+    .review-container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    #chartContainer {
+        height: 350px !important;
+        padding: 15px;
+    }
+    .bar-chart{
+        height: 350px;
+    }
+}
+
+@media (max-width: 992px) {
+    .review-container {
+        grid-template-columns: 1fr;
+    }
+    .bar-chart{
+        height: 350px;
+    }
+
+    #chartContainer {
+        height: 400px !important;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .review-container {
+        grid-template-columns: 1fr;
+        padding: 5px;
+    }
+    .bar-chart{
+        height: 350px;
+    }
+    #chartContainer {
+        height: 300px;
+        padding: 10px;
+    }
+}
+
+

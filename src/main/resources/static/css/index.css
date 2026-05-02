@@ -1,0 +1,100 @@
+section h2 {
+    color: #ffdd57;
+    margin-top: 20px;
+    font-optical-sizing: auto;
+    font-weight: 450;
+    font-style: normal;
+    text-align: center;
+}
+
+.hero {
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 100px 20px;
+    height: 100vh;
+    flex-direction: column !important;
+    background-color: #001f3f;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+
+}
+
+.hero p {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+#about {
+    background-color: #1b3a61;
+    padding: 50px 0;
+    text-align: center;
+    color: #f8f9fa;
+}
+
+#about .container {
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+#about h2 {
+    font-size: 36px;
+    margin-bottom: 40px;
+}
+
+#about p {
+    text-align: justify;
+    font-size: 1.4rem;
+}
+
+#services {
+    padding: 50px 20px;
+    background-color: #001f3f;
+}
+
+#services .container {
+    text-align: center;
+}
+
+.service-cards {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    flex-wrap: wrap;
+
+}
+
+.card {
+    background-color: #ecf3f8;
+    border-color: #0357b7dc;
+    box-shadow: 0 0 5px rgba(26, 134, 188, 0.3);
+    padding: 20px;
+    border-radius: 8px;
+    width: 22%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card i.icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    margin-bottom: 10px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 19px;
+}
+

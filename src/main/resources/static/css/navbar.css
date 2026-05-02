@@ -1,0 +1,27 @@
+body{
+    font-family: "Roboto", serif;
+    background-color: #f4f8fb;
+    margin: 0;
+    padding: 0;
+}
+.navbar{
+    font-family: "Poppins", serif;
+    font-weight: 300;
+    font-style: normal;
+    background-color: #002855 !important;
+}
+.navbar-brand{
+    color: #ffcc00 !important;
+}
+#login-button{
+    background-color: #4caf50;
+    color: white;
+    border: 2px solid #4caf50;
+    transition: all 0.2s ease-in-out;
+    margin-right: 30px;
+}
+
+#login-button:hover{
+    background-color: #002855;
+    color: #4caf50;
+}
