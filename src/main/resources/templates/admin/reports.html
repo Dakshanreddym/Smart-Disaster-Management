@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+    <!--poppins-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link rel="icon" th:href="@{/images/icon.jpg}" >
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/admin-reports.css}">
+</head>
+<body>
+<!-- sidebar -->
+<div class="sidebar">
+    <button class="close-sidebar" id="closeSidebar">&times;</button>
+
+    <!-- Profile Section -->
+    <div class="profile-section">
+        <img th:src="@{/images/default.jpg}" alt="Profile Picture">
+        <div class="info">
+            <h3>Welcome Back!</h3>
+            <p th:text="${adminName}"></p>
+        </div>
+    </div>
+
+    <!-- Navigation Items -->
+
+    <ul>
+        <li><a th:href="@{/admin/dashboard}"><i class="fas fa-chart-line"></i> Overview</a></li>
+        <li><a th:href="@{/admin/admins}"><i class="fas fa-users"></i> Admins</a></li>
+        <li><a th:href="@{/disasters/reports}" class="active"><i class="fas fa-exclamation-triangle"></i> Disaster Reports</a></li>
+        <li><a th:href="@{/user/users}"><i class="fas fa-users"></i> Users</a></li>
+        <li><a th:href="@{/admin/logout}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+</div>
+
+<div class="content">
+    <div class="header">
+        <button id="toggleSidebar" class="toggle-button">
+            <i class="fas fa-bars"></i>
+        </button>
+        <h2><i class="fas fa-exclamation-triangle"></i> Disaster Reports</h2>
+    </div>
+    <!-- Display error message -->
+    <div th:if="${errorMessage}">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong> <span th:text="${errorMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <!-- Success Alert-->
+    <div th:if="${successMessage}">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> <span th:text="${successMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <div class="buttons-container">
+        <div class="actions">
+            <select id="province" onchange="filterDisasters()">
+                <option value="">Select Province</option>
+                <option value="Central">Central</option>
+                <option value="Eastern">Eastern</option>
+                <option value="Southern">Southern</option>
+                <option value="Nothern">Northern</option>
+                <option value="NorthCentral">North Central</option>
+                <option value="NorthWestern">North Western</option>
+                <option value="Sabaragamuwa">Sabaragamuwa</option>
+                <option value="Uva">Uva</option>
+                <option value="Western">Western</option>
+            </select>
+            <select id="districtFilter" name="districtFilter" onchange="filterDisasters()">
+                <option value="">Select District</option>
+                <option value="Colombo">Colombo</option>
+                <option value="Gampaha">Gampaha</option>
+                <option value="Kalutara">Kalutara</option>
+                <option value="Kandy">Kandy</option>
+                <option value="Matale">Matale</option>
+                <option value="Nuwara_Eliya">Nuwara Eliya</option>
+                <option value="Galle">Galle</option>
+                <option value="Matara">Matara</option>
+                <option value="Hambantota">Hambantota</option>
+                <option value="Jaffna">Jaffna</option>
+                <option value="Kilinochchi">Kilinochchi</option>
+                <option value="Mannar">Mannar</option>
+                <option value="Vavuniya">Vavuniya</option>
+                <option value="Mullaitivu">Mullaitivu</option>
+                <option value="Batticaloa">Batticaloa</option>
+                <option value="Ampara">Ampara</option>
+                <option value="Trincomalee">Trincomalee</option>
+                <option value="Kurunegala">Kurunegala</option>
+                <option value="Puttalam">Puttalam</option>
+                <option value="Anuradhapura">Anuradhapura</option>
+                <option value="Polonnaruwa">Polonnaruwa</option>
+                <option value="Badulla">Badulla</option>
+                <option value="Monaragala">Monaragala</option>
+                <option value="Ratnapura">Ratnapura</option>
+                <option value="Kegalle">Kegalle</option>
+            </select>
+
+            <select id="statusFilter" name="statusFilter" onchange="filterDisasters()">
+                <option value="">Status</option>
+                <option value="Pending">Pending</option>
+                <option value="Reviewed">Reviewed</option>
+                <option value="In_Progress">In Progress</option>
+                <option value="Resolved">Resolved</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+            <select id="severityFilter" name="severityFilter" onchange="filterDisasters()">
+                <option value="">Severity</option>
+                <option value="Low">Low</option>
+                <option value="Mild">Mild</option>
+                <option value="High">High</option>
+            </select>
+            <button type="button" class="btn btn-danger fs-5 py-3 px-4" onclick="clearFilters()">Clear</button>
+        </div>
+    </div>
+    <table id="disasterTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Reported By</th>
+            <th>Contact</th>
+            <th>Location</th>
+            <th>Type</th>
+            <th>Severity</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody id="disasterBody">
+        <tr th:each="disaster: ${disasterList}">
+            <td th:text="${disaster.id}"></td>
+            <td th:text="${disaster.createdAt}"></td>
+            <td th:text="${disaster.fullName}"></td>
+            <td th:text="${disaster.phoneNumber}"></td>
+            <td th:text="${disaster.address}"></td>
+            <td th:text="${disaster.disasterType}"></td>
+            <td th:text="${disaster.severity}"></td>
+            <td>
+                <form th:action="@{/disasters/updateStatus}" method="POST">
+                    <input type="hidden" name="id" th:value="${disaster.id}" />
+                    <select name="status" onchange="this.form.submit()">
+                        <option value="Pending" th:selected="${disaster.status.name() == 'Pending'}">Pending</option>
+                        <option value="Reviewed" th:selected="${disaster.status.name() == 'Reviewed'}">Reviewed</option>
+                        <option value="Rejected" th:selected="${disaster.status.name() == 'Rejected'}">Rejected</option>
+                        <option value="In_Progress" th:selected="${disaster.status.name() == 'In_Progress'}">In Progress</option>
+                        <option value="Resolved" th:selected="${disaster.status.name() == 'Resolved'}">Resolved</option>
+                        <option value="Cancelled" th:selected="${disaster.status.name() == 'Cancelled'}">Cancelled</option>
+                    </select>
+                </form>
+            </td>
+            <td><a th:href="@{/disasters/{id}(id=${disaster.id})}"><button type="button" class="btn btn-primary fs-5 p-2">Details</button></a></td>
+            <td class="province" style="display:none;" th:text="${disaster.province}"></td>
+            <td class="district" style="display:none;" th:text="${disaster.district}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script th:src="@{/js/sidebar.js}"></script>
+<script>
+    function filterDisasters() {
+        const province = document.getElementById('province').value.toLowerCase();
+        const district = document.getElementById('districtFilter').value.toLowerCase();
+        const status = document.getElementById('statusFilter').value.toLowerCase();
+        const severity = document.getElementById('severityFilter').value.toLowerCase();
+
+        const rows = document.querySelectorAll('#disasterBody tr');
+        let hasMatch = false; // Track if any row is visible
+
+        rows.forEach(row => {
+            const provinceText = row.querySelector('.province')?.textContent.toLowerCase() || "";
+            const districtText = row.querySelector('.district')?.textContent.toLowerCase() || "";
+            const statusText = row.querySelector('td:nth-child(8) select')?.value.toLowerCase() || "";
+            const severityText = row.querySelector('td:nth-child(7)')?.textContent.toLowerCase() || "";
+
+            const isMatch =
+                (province === '' || provinceText.includes(province)) &&
+                (district === '' || districtText.includes(district)) &&
+                (status === '' || statusText.includes(status)) &&
+                (severity === '' || severityText.includes(severity));
+
+            if (isMatch) {
+                row.style.display = '';
+                hasMatch = true;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // Show or hide "No matching data found" message
+        let noDataMessage = document.getElementById('noDataMessage');
+        if (!hasMatch) {
+            if (!noDataMessage) {
+                noDataMessage = document.createElement('tr');
+                noDataMessage.id = 'noDataMessage';
+                noDataMessage.innerHTML = `<td colspan="9" class="text-center">No matching data found</td>`;
+                document.querySelector('#disasterBody').appendChild(noDataMessage);
+            }
+        } else {
+            if (noDataMessage) {
+                noDataMessage.remove();
+            }
+        }
+    }
+
+    function clearFilters() {
+        // Clear all filter selections
+        document.getElementById('province').value = '';
+        document.getElementById('districtFilter').value = '';
+        document.getElementById('statusFilter').value = '';
+        document.getElementById('severityFilter').value = '';
+
+        // Trigger the filter function to display all rows again
+        filterDisasters();
+    }
+
+</script>
+</body>
+</html>

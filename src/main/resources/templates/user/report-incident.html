@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--poppins-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <title>Report Incident</title>
+    <link rel="icon" th:href="@{/images/icon.jpg}" >
+    <link rel="stylesheet" th:href="@{/css/report-incident.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body style="padding-top: 100px;">
+<nav class="navbar navbar-expand-lg fixed-top " data-bs-theme="dark" >
+    <div class="container-fluid">
+        <div>
+            <button class="navbar-toggler px-2 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand fs-3 px-4" th:href="@{/user/index}">Safe Lanka</a>
+        </div>
+
+        <div class="collapse navbar-collapse justify-content-center " id="navbarText">
+            <ul class="navbar-nav fs-5">
+                <li class="nav-item px-4 ">
+                    <a class="nav-link" th:href="@{/user/index}">Home</a>
+                </li>
+                <li th:if="${!userLoggedIn}" class="nav-item px-3 ">
+                    <a class="nav-link" href="index#about">About Us</a>
+                </li>
+                <li class="nav-item px-3 ">
+                    <a class="nav-link active" th:href="@{/disasters/report-incident-form}">Report Incident</a>
+                </li>
+                <li th:if="${!userLoggedIn}" class="nav-item px-3 ">
+                    <a class="nav-link" href="index#services">Services</a>
+                </li>
+                <li th:if="${userLoggedIn}" class="nav-item px-3 ">
+                    <a class="nav-link" th:href="@{/disasters/my-reports}">My Reports</a>
+                </li>
+            </ul>
+        </div>
+        <a  th:if="${!userLoggedIn}" th:href="@{/user/login}">
+            <button class="btn px-4 btn-lg mr-5" type="button" id="login-button">Login</button>
+        </a>
+        <a  th:if="${userLoggedIn}" th:href="@{/user/logout}">
+            <button class="btn btn-danger px-4 btn-lg mr-5" type="button" id="logout-button">Logout</button>
+        </a>
+    </div>
+</nav>
+<!-- Success Alert-->
+<div th:if="${successMessage}"  class="mr-2 ml-2">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+
+<div class="content mb-3">
+    <div class="form-container">
+        <h1>Report an Incident</h1>
+
+        <!-- Error Alert-->
+        <div th:if="${errorMessage}">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> <span th:text="${errorMessage}"></span>
+                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <form id="disasterForm" th:action="@{/disasters/report}" method="POST" th:object="${disaster}">
+            <div class="row">
+                <div class="column">
+                    <label for="fullName">Full Name:</label>
+                    <input type="text" th:field="${disaster.fullName}" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                    <div class="alert alert-danger mt-1 p-1" th:if="${#fields.hasErrors('fullName')}" role="alert">
+                        <p  th:text="${#strings.arrayJoin(#fields.errors('fullName'), ', ')}" class="text-center"></p>
+                    </div>
+                </div>
+                <div class="column">
+                    <label for="phoneNumber">Phone Number:</label>
+                    <input type="tel" th:field="${disaster.phoneNumber}" id="phoneNumber" name="phoneNumber" placeholder="Enter your 10 digit phone number" required>
+                    <div class="alert alert-danger mt-1 p-1" th:if="${#fields.hasErrors('phoneNumber')}" role="alert">
+                        <p  th:text="${#strings.arrayJoin(#fields.errors('phoneNumber'), ', ')}" class="text-center"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="nicNumber">NIC Number:</label>
+                    <input type="text" th:field="${disaster.nicNumber}" id="nicNumber" name="nicNumber" placeholder="Enter your NIC number" required>
+                    <div class="alert alert-danger mt-1 p-1" th:if="${#fields.hasErrors('nicNumber')}" role="alert">
+                        <p  th:text="${#strings.arrayJoin(#fields.errors('nicNumber'), ', ')}" class="text-center"></p>
+                    </div>
+                </div>
+                <div class="column">
+                    <label for="email">Email:</label>
+                    <input type="email" th:field="${disaster.email}" id="email" name="email" placeholder="Enter your Email" required>
+                    <div class="alert alert-danger mt-1 p-1" th:if="${#fields.hasErrors('email')}" role="alert">
+                        <p  th:text="${#strings.arrayJoin(#fields.errors('email'), ', ')}" class="text-center"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label for="address" class="mb-1">Address:</label>
+                <input type="text" th:field="${disaster.address}" id="address" name="address" placeholder="Enter address manually or select on map" required>
+                <div class="d-flex justify-content-center">
+                    <button type="button" id="getLocation" class="btn btn-lg btn-primary mt-2 mb-1" style="width: 75%;">Get Live Location</button>
+                </div>
+            </div>
+            <div class="alert alert-danger mt-1 p-1" th:if="${#fields.hasErrors('address')}" role="alert">
+                <p  th:text="${#strings.arrayJoin(#fields.errors('address'), ', ')}" class="text-center"></p>
+            </div>
+
+            <div id="map"></div>
+
+            <input type="hidden" th:field="${disaster.latitude}" id="latitude" name="latitude">
+            <input type="hidden" th:field="${disaster.longitude}" id="longitude" name="longitude">
+            <div class="row">
+                <div class="column">
+                    <label for="province">Province:</label>
+                    <select id="province"  th:field="${disaster.province}" name="province" required>
+                        <option value="None">Select Province</option>
+                        <option value="Central">Central</option>
+                        <option value="Eastern">Eastern</option>
+                        <option value="Southern">Southern</option>
+                        <option value="Nothern">Northern</option>
+                        <option value="NorthCentral">North Central</option>
+                        <option value="NorthWestern">North Western</option>
+                        <option value="Sabaragamuwa">Sabaragamuwa</option>
+                        <option value="Uva">Uva</option>
+                        <option value="Western">Western</option>
+                    </select>
+                    <div class="alert alert-danger mt-1 p-1" th:if="${#fields.hasErrors('province')}" role="alert">
+                        <p  th:text="${#strings.arrayJoin(#fields.errors('province'), ', ')}" class="text-center"></p>
+                    </div>
+                </div>
+                <div class="column">
+                    <label for="district">District:</label>
+                    <select id="district" th:field="${disaster.district}" name="district" required>
+                        <option value="">Select District</option>
+                    </select>
+                    <div class="alert alert-danger mt-1 p-1" th:if="${#fields.hasErrors('district')}" role="alert">
+                        <p  th:text="${#strings.arrayJoin(#fields.errors('district'), ', ')}" class="text-center"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="gnDivision">Grama Niladhari Division:</label>
+                    <input type="text" th:field="${disaster.gnDivision}" id="gnDivision" name="gnDivision" placeholder="Enter GN Division" required>
+                    <div class="alert alert-danger mt-1 p-1" th:if="${#fields.hasErrors('gnDivision')}" role="alert">
+                        <p  th:text="${#strings.arrayJoin(#fields.errors('gnDivision'), ', ')}" class="text-center"></p>
+                    </div>
+                </div>
+                <div class="column">
+                    <label for="disasterType">Disaster Type:</label>
+                    <select id="disasterType" th:field="${disaster.disasterType}" name="disasterType" required>
+                        <option value="None">Select Disaster Type</option>
+                        <option value="Flood">Flood</option>
+                        <option value="Earthquake">Earthquake</option>
+                        <option value="Cyclone">Cyclone</option>
+                        <option value="Landslide">Landslide</option>
+                        <option value="Drought">Drought</option>
+                        <option value="Fire">Fire</option>
+                        <option value="Epidemic">Epidemic</option>
+                    </select>
+                    <div class="alert alert-danger mt-1 p-1" th:if="${#fields.hasErrors('disasterType')}" role="alert">
+                        <p  th:text="${#strings.arrayJoin(#fields.errors('disasterType'), ', ')}" class="text-center"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="disasterDateTime">Date and Time of Disaster:</label>
+                    <input type="datetime-local"  th:field="${disaster.disasterDateTime}" id="disasterDateTime" name="disasterDateTime" required>
+                    <div class="alert alert-danger mt-1 p-1" th:if="${#fields.hasErrors('disasterDateTime')}" role="alert">
+                        <p  th:text="${#strings.arrayJoin(#fields.errors('disasterDateTime'), ', ')}" class="text-center"></p>
+                    </div>
+                </div>
+                <div class="column">
+                    <label for="affectedIndividuals">Number of Individuals Affected:</label>
+                    <input type="number" th:field="${disaster.affectedIndividuals}" id="affectedIndividuals" name="affectedIndividuals" min="1" value="1" required>
+                    <div class="alert alert-danger mt-1 p-1" th:if="${#fields.hasErrors('affectedIndividuals')}" role="alert">
+                        <p  th:text="${#strings.arrayJoin(#fields.errors('affectedIndividuals'), ', ')}" class="text-center"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="severity">Urgency Level:</label>
+                    <select id="severity" th:field="${disaster.severity}" name="severity" required>
+                        <option value="">Select Urgency Level</option>
+                        <option value="Mild">Mild</option>
+                        <option value="Low">Low</option>
+                        <option value="High">High</option>
+                    </select>
+                    <div class="alert alert-danger mt-1 p-1" th:if="${#fields.hasErrors('severity')}" role="alert">
+                        <p  th:text="${#strings.arrayJoin(#fields.errors('severity'), ', ')}" class="text-center"></p>
+                    </div>
+                </div>
+                <div class="column">
+                    <label for="image">Upload Image (optional):</label>
+                    <input type="file"  th:field="${disaster.image}" id="image" name="image" accept="image/*">
+                </div>
+            </div>
+
+            <label for="impact">Impact Description:</label>
+            <textarea id="impact" th:field="${disaster.impact}" name="impact" placeholder="Describe the impact of the disaster" required></textarea>
+            <div class="alert alert-danger mt-1 p-1" th:if="${#fields.hasErrors('impact')}" role="alert">
+                <p  th:text="${#strings.arrayJoin(#fields.errors('impact'), ', ')}" class="text-center"></p>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-lg mt-2 mb-2 w-100">Submit Report</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const provinceDistrictMap = {
+            Western: ["Colombo", "Gampaha", "Kalutara"],
+            Central: ["Kandy", "Matale", "Nuwara_Eliya"],
+            Southern: ["Galle", "Matara", "Hambantota"],
+            Eastern: ["Trincomalee", "Batticaloa", "Ampara"],
+            Nothern: ["Jaffna", "Kilinochchi", "Mannar", "Vavuniya", "Mullaitivu"],
+            NorthCentral: ["Anuradhapura", "Polonnaruwa"],
+            NorthWestern: ["Kurunegala", "Puttalam"],
+            Uva: ["Badulla", "Monaragala"],
+            Sabaragamuwa: ["Ratnapura", "Kegalle"],
+        };
+
+        const provinceDropdown = document.getElementById("province");
+        const districtDropdown = document.getElementById("district");
+
+        provinceDropdown.addEventListener("change", function () {
+            const selectedProvince = provinceDropdown.value;
+            districtDropdown.innerHTML = "<option value=''>Select District</option>";
+
+            if (selectedProvince && provinceDistrictMap[selectedProvince]) {
+                provinceDistrictMap[selectedProvince].forEach((district) => {
+                    const option = document.createElement("option");
+                    option.value = district;
+                    option.textContent = district;
+                    districtDropdown.appendChild(option);
+                });
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const map = L.map("map").setView([7.8731, 80.7718], 7); // Sri Lanka
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+        }).addTo(map);
+
+        let marker;
+
+        // Handle map clicks
+        map.on("click", (e) => {
+            const { lat, lng } = e.latlng;
+
+            if (marker) {
+                marker.setLatLng([lat, lng]);
+            } else {
+                marker = L.marker([lat, lng]).addTo(map);
+            }
+
+            fetchGeocodingByCoordinates(lat, lng);
+        });
+
+        // Handle "Get Live Location" button
+        document.getElementById("getLocation").addEventListener("click", () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        map.setView([latitude, longitude], 15);
+
+                        if (marker) {
+                            marker.setLatLng([latitude, longitude]);
+                        } else {
+                            marker = L.marker([latitude, longitude]).addTo(map);
+                        }
+
+                        fetchGeocodingByCoordinates(latitude, longitude);
+                    },
+                    () => {
+                        alert("Unable to retrieve location.");
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        });
+
+        // Handle manual address entry
+        document.getElementById("address").addEventListener("change", async (e) => {
+            const address = e.target.value;
+            if (address.trim() !== "") {
+                const { lat, lng } = await fetchGeocodingByAddress(address);
+
+                // Update map and marker
+                map.setView([lat, lng], 15);
+                if (marker) {
+                    marker.setLatLng([lat, lng]);
+                } else {
+                    marker = L.marker([lat, lng]).addTo(map);
+                }
+
+                // Update latitude and longitude fields
+                document.getElementById("latitude").value = lat;
+                document.getElementById("longitude").value = lng;
+            }
+        });
+
+        // Fetch address based on coordinates
+        async function fetchGeocodingByCoordinates(lat, lng) {
+            try {
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
+                );
+                const data = await response.json();
+                document.getElementById("address").value = data.display_name;
+                document.getElementById("latitude").value = lat;
+                document.getElementById("longitude").value = lng;
+            } catch (error) {
+                console.error("Error fetching geocoding data by coordinates:", error);
+            }
+        }
+
+        // Fetch coordinates based on address
+        async function fetchGeocodingByAddress(address) {
+            try {
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+                        address
+                    )}`
+                );
+                const data = await response.json();
+                if (data && data.length > 0) {
+                    return {
+                        lat: parseFloat(data[0].lat),
+                        lng: parseFloat(data[0].lon),
+                    };
+                } else {
+                    alert("Could not find location for the entered address, please select your location on the map or fetch your location by clicking on the 'Get Live Location' button.");
+                    return { lat: null, lng: null };
+                }
+            } catch (error) {
+                console.error("Error fetching geocoding data by address:", error);
+                return { lat: null, lng: null };
+            }
+        }
+    });
+</script>
+</body>
+</html>
